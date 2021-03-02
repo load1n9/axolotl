@@ -9,9 +9,9 @@ import {
     CommandNotFound
 } from "@typeit/discord";
 
-import { MessageAttachment, MessageEmbed} from "discord.js"
+import { MessageAttachment, MessageEmbed } from "discord.js"
 
-let data:any = {
+let data: any = {
 
 }
 
@@ -22,22 +22,28 @@ abstract class AppDiscord {
 
     @Command("createwallet")
     private createwallet(message: CommandMessage) {
-        data[(message.author.id).toString()] = {}
-        data[(message.author.id).toString()].wallet = new Wallet()
-        let attachment = new MessageAttachment(Buffer.from(data[(message.author.id).toString()].wallet.publicKey, 'utf-8'), 'wallet.pem');
-        message.channel.send('created a new wallet', attachment);
+        try {
+            data[(message.author.id).toString()] = {}
+            data[(message.author.id).toString()].wallet = new Wallet()
+            let attachment = new MessageAttachment(Buffer.from(data[(message.author.id).toString()].wallet.publicKey, 'utf-8'), 'wallet.pem');
+            message.channel.send('created a new wallet', attachment);
+        } catch (e) { }
     }
     @Command("chain")
     private chain(message: CommandMessage) {
-        let attachment = new MessageAttachment(Buffer.from(JSON.stringify(Chain.instance), 'utf-8'), 'chain.txt');
-        message.channel.send(JSON.stringify(Chain.instance.lastBlock));
-        message.channel.send(`full chain`,attachment)
+        try {
+            let attachment = new MessageAttachment(Buffer.from(JSON.stringify(Chain.instance), 'utf-8'), 'chain.txt');
+            message.channel.send(JSON.stringify(Chain.instance.lastBlock));
+            message.channel.send(`full chain`, attachment)
+        } catch (e) {
+            message.channel.send("weird, something went wrong")
+        }
     }
 
 
     @Command("mine")
     private mine(message: CommandMessage) {
-        try { 
+        try {
             system.sendMoney(0.0001, data[(message.author.id).toString()].wallet.publicKey)
             message.channel.send("⛏️ mined 0.0001 ara")
         } catch (e) {
@@ -48,9 +54,9 @@ abstract class AppDiscord {
 
     @Command("sendmoney")
     private sendmoney(message: CommandMessage) {
-        try { 
-            let msg:any = message.content.split(" ")
-            data[(message.author.id).toString()].wallet.sendMoney(msg[1].toString(),data[msg[2]].wallet.publicKey)
+        try {
+            let msg: any = message.content.split(" ")
+            data[(message.author.id).toString()].wallet.sendMoney(msg[1].toString(), data[msg[2]].wallet.publicKey)
             message.channel.send(`sent ${msg[1]} ara to ${msg[2]} successfully `)
         } catch (e) {
             message.channel.send("you do not have a wallet create one with the $createwallet command")
