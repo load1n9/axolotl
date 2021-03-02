@@ -1,0 +1,10 @@
+import { Chain } from "./src/chain"
+import { Wallet } from "./src/wallet"
+
+let test = new Wallet()
+let test2 = new Wallet()
+let test3 = new Wallet()
+
+test.sendMoney(50, test2.publicKey)
+
+console.log(Chain.instance)

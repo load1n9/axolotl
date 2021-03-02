@@ -1,0 +1,19 @@
+{
+  "name": "anchovy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && node build/index.js",
+    "tsc": "tsc",
+    "start": "node build/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typeit/discord": "^4.0.9",
+    "@types/node": "^14.14.31",
+    "discord.js": "^12.5.1",
+    "tslib": "^2.1.0"
+  }
+}
