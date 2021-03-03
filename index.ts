@@ -1,4 +1,6 @@
 import { Client } from "@typeit/discord";
+import * as dotenv from "dotenv"
+dotenv.config()
 
 async function start() {
   const client = new Client({
