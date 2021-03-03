@@ -9,15 +9,23 @@ let data = {};
 let system = new wallet_1.Wallet();
 let AppDiscord = class AppDiscord {
     createwallet(message) {
-        data[(message.author.id).toString()] = {};
-        data[(message.author.id).toString()].wallet = new wallet_1.Wallet();
-        let attachment = new discord_js_1.MessageAttachment(Buffer.from(data[(message.author.id).toString()].wallet.publicKey, 'utf-8'), 'wallet.pem');
-        message.channel.send('created a new wallet', attachment);
+        try {
+            data[(message.author.id).toString()] = {};
+            data[(message.author.id).toString()].wallet = new wallet_1.Wallet();
+            let attachment = new discord_js_1.MessageAttachment(Buffer.from(data[(message.author.id).toString()].wallet.publicKey, 'utf-8'), 'wallet.pem');
+            message.channel.send('created a new wallet', attachment);
+        }
+        catch (e) { }
     }
     chain(message) {
-        let attachment = new discord_js_1.MessageAttachment(Buffer.from(JSON.stringify(chain_1.Chain.instance), 'utf-8'), 'chain.txt');
-        message.channel.send(JSON.stringify(chain_1.Chain.instance.lastBlock));
-        message.channel.send(`full chain`, attachment);
+        try {
+            let attachment = new discord_js_1.MessageAttachment(Buffer.from(JSON.stringify(chain_1.Chain.instance), 'utf-8'), 'chain.txt');
+            message.channel.send(JSON.stringify(chain_1.Chain.instance.lastBlock));
+            message.channel.send(`full chain`, attachment);
+        }
+        catch (e) {
+            message.channel.send("weird, something went wrong");
+        }
     }
     mine(message) {
         try {
