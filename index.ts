@@ -11,7 +11,7 @@ async function start() {
     silent: false,
     variablesChar: ":"
   });
-
+  console.log(`token: ${process.env.TOKEN}`)
   await client.login(process.env.TOKEN);
 }
 start()
