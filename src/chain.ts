@@ -9,7 +9,6 @@ export class Chain {
 
     constructor() {
         this.chain = [new Block(null, new Transaction(1000000000, "genesis", "ara"))]
-
     }
 
     get lastBlock() {
@@ -36,7 +35,7 @@ export class Chain {
     }
 
     addBlock(transaction: Transaction, senderPublicKey: string, signature: Buffer) {
-        const verifier = crypto.createVerify('SHA256')
+        const verifier = crypto.createVerify('blake2b512')
         verifier.update(transaction.toString())
 
         const isValid = verifier.verify(senderPublicKey, signature)
@@ -46,7 +45,5 @@ export class Chain {
             this.mine(newBlock.nonce)
             this.chain.push(newBlock)
         }
-
-
     }
 }

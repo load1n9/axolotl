@@ -12,7 +12,7 @@ export class Block {
 
     get hash() {
         const str = JSON.stringify(this)
-        const hash = crypto.createHash('SHA256')
+        const hash = crypto.createHash('blake2b512')
         hash.update(str).end()
         return hash.digest('hex')
     }
