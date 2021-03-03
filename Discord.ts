@@ -65,6 +65,6 @@ abstract class AppDiscord {
 
     @CommandNotFound()
     private notFound(message: CommandMessage) {
-        message.channel.send("command not found")
+    
     }
 }
