@@ -7,7 +7,7 @@ export class Chain {
     chain: Block[];
 
     constructor() {
-        this.chain = [new Block(null, new Transaction(1000000000, "genesis", "ara"))]
+        this.chain = [new Block(null, new Transaction(1000000000, 'genesis', 'ara'))]
     }
 
     get lastBlock() {
