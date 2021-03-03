@@ -10,6 +10,6 @@ async function start() {
     variablesChar: ":"
   });
 
-  await client.login("ODE2MzcxODY0MTU4MDc2OTk4.YD5_iw.enhQ7wToyg3Y7vhjA9iZ-f6lMa8");
+  await client.login(process.env.TOKEN);
 }
 start()
