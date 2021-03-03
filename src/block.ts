@@ -9,7 +9,6 @@ export class Block {
         public ts = Date.now()
     ) {}
 
-
     get hash() {
         const str = JSON.stringify(this)
         const hash = crypto.createHash('blake2b512')

@@ -17,7 +17,6 @@ export class Wallet {
         this.publicKey = keypair.publicKey
     }
 
-
     sendMoney(amount: number, payeePublicKey: string) {
         const transaction = new Transaction(amount, this.publicKey, payeePublicKey)
 
@@ -28,5 +27,4 @@ export class Wallet {
         Chain.instance.addBlock(transaction, this.publicKey, signature)
 
     }
-
 }

@@ -2,8 +2,7 @@ import * as crypto from "crypto";
 import { Block } from "./block";
 import { Transaction } from "./transaction";
 
-export class Chain {
-    
+export class Chain {    
     public static instance = new Chain();
     chain: Block[];
 
@@ -17,10 +16,10 @@ export class Chain {
 
     mine(nonce: number) {
         let solution = 1;
-        console.log(`⛏️  mining...`)
+        console.log(`⛏️  Mining...`)
 
         while (true) {
-            const hash = crypto.createHash("md5")
+            const hash = crypto.createHash('blake2b512')
             hash.update((nonce + solution).toString()).end()
 
             const attempt = hash.digest('hex')
