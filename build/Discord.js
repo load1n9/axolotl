@@ -47,7 +47,6 @@ let AppDiscord = class AppDiscord {
         }
     }
     notFound(message) {
-        message.channel.send("command not found");
     }
 };
 tslib_1.__decorate([

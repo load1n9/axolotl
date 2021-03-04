@@ -7,7 +7,7 @@ class Block {
         this.prevHash = prevHash;
         this.transaction = transaction;
         this.ts = ts;
-        this.nonce = Math.round(Math.random() * 999999999);
+        this.nonce = parseInt(crypto.randomBytes(64).toString("hex"), 16);
     }
     get hash() {
         const str = JSON.stringify(this);
