@@ -1,6 +1,6 @@
-import * as crypto from "crypto";
-import { Chain } from "./chain";
-import { Transaction } from "./transaction";
+import * as crypto from "crypto"
+import { Chain } from "./chain"
+import { Transaction } from "./transaction"
 
 export class Wallet {
     public publicKey: string;
@@ -16,7 +16,6 @@ export class Wallet {
         this.privateKey = keypair.privateKey
         this.publicKey = keypair.publicKey
     }
-
 
     sendMoney(amount: number, payeePublicKey: string) {
         const transaction = new Transaction(amount, this.publicKey, payeePublicKey)

@@ -1,15 +1,13 @@
-import * as crypto from "crypto";
-import { Block } from "./block";
-import { Transaction } from "./transaction";
+import * as crypto from "crypto"
+import { Block } from "./block"
+import { Transaction } from "./transaction"
 
 export class Chain {
-    
     public static instance = new Chain();
     chain: Block[];
 
     constructor() {
-        this.chain = [new Block(null, new Transaction(1000000000, "genesis", "ara"))]
-
+        this.chain = [new Block(null, new Transaction(1000000000, 'genesis', 'ara'))]
     }
 
     get lastBlock() {
@@ -17,16 +15,18 @@ export class Chain {
     }
 
     mine(nonce: number) {
-        let solution = 1;
-        console.log(`⛏️  mining...`)
+        let solution = 1
+        console.log(`⛏️  Mining...`)
 
         while (true) {
-            const hash = crypto.createHash("md5")
+            var hash = crypto.createHash('md5')
             hash.update((nonce + solution).toString()).end()
 
-            const attempt = hash.digest('hex')
+            var attempt = hash.digest('hex')
 
-            if (attempt.substr(0,4) == '0000') {
+            console.log(attempt)
+
+            if (attempt.substr(0, 4) == '0') {
                 console.log(`Solved: ${solution}`)
                 return solution
             }
@@ -46,7 +46,5 @@ export class Chain {
             this.mine(newBlock.nonce)
             this.chain.push(newBlock)
         }
-
-
     }
 }
