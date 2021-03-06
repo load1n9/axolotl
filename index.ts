@@ -3,6 +3,17 @@ import * as dotenv from "dotenv"
 
 dotenv.config()
 
+// Polyfill
+declare global {
+    interface BigInt {
+        toJSON(): string;
+    }
+}
+
+BigInt.prototype.toJSON = function() {
+    return this.toString()
+}
+
 async function start() {
     const client = new Client({
         classes: [

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "target": "esnext",
     "noImplicitAny": false,
     "sourceMap": true,
     "outDir": "build",
@@ -13,7 +13,8 @@
       "es2017",
       "esnext.asynciterable"
     ],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["node"]
   },
   "exclude": [
     "node_modules"

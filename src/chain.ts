@@ -14,19 +14,17 @@ export class Chain {
         return this.chain[this.chain.length - 1]
     }
 
-    mine(nonce: number) {
-        let solution = 1
+    mine(nonce: bigint, start: string) {
+        var solution = 1n
         console.log(`⛏️  Mining...`)
 
         while (true) {
-            var hash = crypto.createHash('md5')
-            hash.update((nonce + solution).toString()).end()
+            var hash = crypto.createHash('SHA3-256')
+            hash.update(BigInt(nonce + solution).toString()).end()
 
             var attempt = hash.digest('hex')
 
-            console.log(attempt)
-
-            if (attempt.substr(0, 4) == '0') {
+            if (attempt.substr(0, 4) == start) {
                 console.log(`Solved: ${solution}`)
                 return solution
             }
@@ -43,7 +41,8 @@ export class Chain {
 
         if (isValid) {
             const newBlock = new Block(this.lastBlock.hash, transaction)
-            this.mine(newBlock.nonce)
+            console.log(newBlock.start)
+            this.mine(newBlock.nonce, newBlock.start)
             this.chain.push(newBlock)
         }
     }

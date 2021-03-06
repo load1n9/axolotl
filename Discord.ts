@@ -6,7 +6,8 @@ import {
     Client,
     Command,
     CommandMessage,
-    CommandNotFound
+    CommandNotFound,
+    Description
 } from "@typeit/discord"
 
 import { MessageAttachment, MessageEmbed } from "discord.js"
@@ -14,6 +15,13 @@ import { MessageAttachment, MessageEmbed } from "discord.js"
 let data: any = {}
 
 let system = new Wallet()
+
+let commands = `$createwallet - Generate wallet
+$chain - Show chain
+$mine - Mine blocks
+$sendmoney <amount> <user mention> - Send money to another user
+$help - Show this message`
+let help_message = 'My prefix is `$`\n' + '```' + commands + '```'
 
 @Discord('$')
 abstract class AppDiscord {
@@ -41,10 +49,13 @@ abstract class AppDiscord {
     @Command('mine')
     private mine(message: CommandMessage) {
         try {
-            system.sendMoney(0.0001, data[(message.author.id).toString()].wallet.publicKey)
-            message.channel.send(':pick:️ Mined 0.0001 ara')
+            message.channel.send(':pick:️ Mining...').then((msg) => {
+                system.sendMoney(0.0001, data[(message.author.id).toString()].wallet.publicKey)
+                msg.edit(`:pick:️ <@${message.author.id}> Mined 0.0001 ara`)
+            });
         } catch (e) {
-            message.channel.send('You do not have a wallet create one with the $createwallet command')
+            message.channel.send('You do not have a wallet. Create one with the $createwallet command')
+            console.log(e)
         }
     }
 
@@ -55,8 +66,14 @@ abstract class AppDiscord {
             data[(message.author.id).toString()].wallet.sendMoney(msg[1].toString(), data[msg[2]].wallet.publicKey)
             message.channel.send(`Sent ${msg[1]} ara to ${msg[2]} successfully`)
         } catch (e) {
-            message.channel.send('You do not have a wallet create one with the $createwallet command')
+            message.channel.send('You do not have a wallet. Create one with the $createwallet command')
         }
+    }
+
+    @Command('help')
+    @Description('Show the help message')
+    private help(message: CommandMessage) {
+        message.channel.send(help_message)
     }
 
     @CommandNotFound()
