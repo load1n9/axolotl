@@ -1,3 +1,5 @@
+import { serialize, deserialize } from "./serialize/index.ts";
+
 export class Transaction {
     constructor(
         public amount: number,
@@ -6,6 +8,6 @@ export class Transaction {
     ) {}
 
     toString() {
-        return JSON.stringify(this)
+        return serialize(this)
     }
 }

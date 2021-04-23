@@ -1,5 +1,5 @@
+import { RSA } from "https://deno.land/x/god_crypto/rsa.ts";
 import { createHash } from 'https://deno.land/std@0.95.0/hash/mod.ts';
-import { Buffer } from 'https://deno.land/std@0.95.0/node/buffer.ts';
 import { Block } from "./block.ts";
 import { Transaction } from "./transaction.ts";
 
@@ -22,9 +22,9 @@ export class Chain {
         console.log(`⛏️  mining...`)
         while (true) {
             const hash = createHash("md5")
-            hash.update((nonce + solution).toString()).end()
+            hash.update((nonce + solution).toString())
 
-            const attempt = hash.digest('hex')
+            const attempt = hash.digest().toString()
 
             if (attempt.substr(0,4) == '0000') {
                 console.log(`Solved: ${solution}`)
@@ -35,10 +35,9 @@ export class Chain {
         }
     }
 
-    addBlock(transaction: Transaction, senderPublicKey: string, signature: Buffer) {
-        const verifier = crypto.createVerify('SHA256')
-        verifier.update(transaction.toString())
-
+    public async addBlock(transaction: Transaction, senderPublicKey: any, signature: any) {
+        const verifier = new RSA(senderPublicKey);
+        await verifier.verify(signature, transaction.toString(), { algorithm: "rsassa-pkcs1-v1_5", hash: "sha256" });
         const isValid = verifier.verify(senderPublicKey, signature)
 
         if (isValid) {

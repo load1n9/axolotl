@@ -13,8 +13,8 @@ export class Block {
 
     get hash() {
         const str = JSON.stringify(this)
-        const hash = createHash('SHA256')
+        const hash = createHash('sha256')
         hash.update(str)
-        return hash.digest('hex')
+        return hash.digest()
     }
 }
