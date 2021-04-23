@@ -1,6 +1,7 @@
-import * as crypto from "crypto";
-import { Block } from "./block";
-import { Transaction } from "./transaction";
+import { createHash } from 'https://deno.land/std@0.95.0/hash/mod.ts';
+import { Buffer } from 'https://deno.land/std@0.95.0/node/buffer.ts';
+import { Block } from "./block.ts";
+import { Transaction } from "./transaction.ts";
 
 export class Chain {
     
@@ -19,9 +20,8 @@ export class Chain {
     mine(nonce: number) {
         let solution = 1;
         console.log(`⛏️  mining...`)
-
         while (true) {
-            const hash = crypto.createHash("md5")
+            const hash = createHash("md5")
             hash.update((nonce + solution).toString()).end()
 
             const attempt = hash.digest('hex')

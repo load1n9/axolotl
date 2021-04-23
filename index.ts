@@ -1,16 +1,13 @@
-import { Client } from "@typeit/discord";
-import * as dotenv from "dotenv"
-dotenv.config()
+import { Chain } from "./src/chain.ts"
+import { Wallet } from "./src/wallet.ts"
 
-async function start() {
-  const client = new Client({
-    classes: [
-      `${__dirname}/*Discord.ts`, 
-      `${__dirname}/*Discord.js` 
-    ],
-    silent: false,
-    variablesChar: ":"
-  });
-  await client.login(process.env.TOKEN);
-}
-start()
+
+
+
+let system = new Wallet()
+let user1 = new Wallet()
+
+
+system.sendMoney(10,user1.publicKey)
+
+console.log(Chain)
