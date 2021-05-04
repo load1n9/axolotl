@@ -9,3 +9,13 @@ export class Transaction {
         return JSON.stringify(this);
     }
 }
+
+export class NFTokenTransaction {
+    public constructor() {
+
+    }
+
+    public toString():string {
+        return JSON.stringify(this)
+    }
+}
