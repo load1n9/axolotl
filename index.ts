@@ -1,5 +1,5 @@
-import { Chain } from "./src/chain.ts"
-import { Wallet } from "./src/wallet.ts"
+import { Chain } from "./src/chain"
+import { Wallet } from "./src/wallet"
 
 
 
@@ -10,4 +10,7 @@ let user1 = new Wallet()
 
 system.sendMoney(10,user1.publicKey)
 
-console.log(Chain)
+console.log(Chain.instance.chain[1].transaction)
+
+
+console.log(user1.balance)

@@ -1,20 +1,20 @@
-import { createHash } from 'https://deno.land/std@0.95.0/hash/mod.ts';
-import { Transaction } from "./transaction.ts";
-import randomBytes from 'https://deno.land/std@0.95.0/node/_crypto/randomBytes.ts';
+import * as crypto from 'crypto';
+import { Transaction } from "./transaction";
 
 export class Block {
-    public nonce = parseInt(randomBytes(64).toString("hex"), 16)
+
+    public nonce = Math.round(Math.random() * 999999999);
+  
     constructor(
-        public prevHash: any,
-        public transaction: Transaction,
-        public ts = Date.now()
+      public prevHash: string, 
+      public transaction: Transaction, 
+      public ts = Date.now()
     ) {}
-
-
+  
     get hash() {
-        const str = JSON.stringify(this)
-        const hash = createHash('sha256')
-        hash.update(str)
-        return hash.digest()
+      const str = JSON.stringify(this);
+      const hash = crypto.createHash('SHA256');
+      hash.update(str).end();
+      return hash.digest('hex');
     }
-}
+  }
