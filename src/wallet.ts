@@ -1,4 +1,4 @@
-import { Transaction } from './transaction';
+import { FTokenTransaction, NFTokenTransaction } from './transaction';
 import { Chain } from './chain';
 import { STARTING_BALANCE } from './config';
 import { Block } from './block'
@@ -21,7 +21,7 @@ export class Wallet {
   
     public sendMoney(amount: number, payeePublicKey: string) {
       if (this.balance >= amount) {
-        const transaction = new Transaction(amount, this.publicKey, payeePublicKey);
+        const transaction = new FTokenTransaction(amount, this.publicKey, payeePublicKey);
   
         const sign = crypto.createSign('SHA256');
         sign.update(transaction.toString()).end();
@@ -31,16 +31,50 @@ export class Wallet {
       }
     }
 
-    public get balance():number {
-        let output:number = 0;
-        Chain.instance.chain.forEach((block:Block) => {
+    public sendNFT(hash: string, payeePublicKey: string) {
+      const nft = this.getNFT(hash);
+      if (nft !== null) {
+        const transaction = new NFTokenTransaction(nft.name, nft.desc, this.publicKey, payeePublicKey);
+  
+        const sign = crypto.createSign('SHA256');
+        sign.update(transaction.toString()).end();
+    
+        const signature = sign.sign(this.privateKey); 
+        Chain.instance.addBlock(transaction, this.publicKey, signature);
+      }
+    }
+
+    public get balance(): number {
+        let output: number = 0;
+        Chain.instance.chain.forEach((block: Block) => {
+            if (!(block.transaction instanceof FTokenTransaction)) {
+                return;
+            }
             if (block.transaction.payer === this.publicKey) {
                 output -= block.transaction.amount;
             } 
             else if (block.transaction.payee === this.publicKey) {
                 output += block.transaction.amount;
             }
-        })
+        });
         return STARTING_BALANCE + output;
     }
-  }
+
+    public getNFT(hash: string): NFTokenTransaction | null {
+        let output: NFTokenTransaction | null = null;
+        Chain.instance.chain.forEach((block: Block) => {
+            if (!(block.transaction instanceof NFTokenTransaction)) {
+                return;
+            }
+            if (block.transaction.id === hash) {
+                if (block.transaction.payer === this.publicKey) {
+                    output = null;
+                }
+                else if (block.transaction.payee === this.publicKey) {
+                    output = block.transaction as NFTokenTransaction;
+                }
+            }
+        });
+        return output;
+    }
+}

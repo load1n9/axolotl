@@ -1,13 +1,12 @@
 import * as crypto from 'crypto';
-import { Transaction } from "./transaction";
+import { BaseTransaction } from './transaction';
 
 export class Block {
-
-    public nonce = Math.round(Math.random() * 999999999);
+    public nonce = parseInt(crypto.randomBytes(32).toString("hex"), 16);
   
     constructor(
       public prevHash: string, 
-      public transaction: Transaction, 
+      public transaction: BaseTransaction, 
       public ts = Date.now()
     ) {}
   
@@ -17,4 +16,4 @@ export class Block {
       hash.update(str).end();
       return hash.digest('hex');
     }
-  }
+}
