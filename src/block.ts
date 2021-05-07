@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import { BaseTransaction } from './transaction';
 
 export class Block {
-    public nonce = parseInt(crypto.randomBytes(32).toString("hex"), 16);
+    public nonce = Math.round(Math.random() * 999999999);
   
     constructor(
       public prevHash: string, 
