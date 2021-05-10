@@ -9,8 +9,8 @@ export class Chain {
 
   constructor() {
     this.chain = [
-      new Block('', new FTokenTransaction(100, 'genesis', 'satoshi')),
-      new Block('', new NFTokenTransaction('weirdo', { 'some': 'object' }, 'genesis', 'satoshi'))
+      new Block('', new FTokenTransaction(100, 'genesis', 'ara')),
+      new Block('', new NFTokenTransaction('weirdo', { 'some': 'object' }, 'genesis', 'ara'))
     ];
   }
 
