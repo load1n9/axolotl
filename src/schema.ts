@@ -10,6 +10,7 @@ export const schema = buildSchema(`
 
     type Mutation {
         getBalance(publicKey: String): Int
+        sendMoney(selfKey: String, p2Key:String, amount: Int ): String
     }
 
 `);

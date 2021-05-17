@@ -27,6 +27,9 @@ export const root:any = {
 
     getBalance: ({publicKey}) => {
         return db[publicKey].balance
+    },
+    sendMoney: ({selfKey, p2Key, amount}) => {
+        return db[selfKey].sendMoney(amount,p2Key)
     }
 };
 
